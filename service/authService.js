@@ -11,7 +11,7 @@ async function ValidateLogin (username, password) {
         if(match){
             const userId = user[0].id;
             const token = jwt.sign({ userId }, process.env.SECRET, {
-                expiresIn: 3600000 // expires in 3 hours
+                expiresIn: "3h" // expires in 3 hours
               });
             return { token: token, username: username }
         }
