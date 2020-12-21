@@ -1,0 +1,36 @@
+CREATE SCHEMA `middle_earth_database` DEFAULT CHARACTER SET utf8 COLLATE utf8_bin ;
+
+CREATE TABLE `middle_earth_database`.`middle_earth_places` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(50) NOT NULL,
+  `photo` MEDIUMTEXT NULL,
+  `photoType` CHAR(3) NOT NULL,
+  `photoUrl` VARCHAR(1000) NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE);
+
+CREATE TABLE `middle_earth_database`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `username` VARCHAR(25) NOT NULL,
+  `password` VARCHAR(150) NOT NULL,
+  `voted` TINYINT NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC) VISIBLE);
+
+CREATE TABLE `middle_earth_database`.`voting` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `fk_placeId` INT NOT NULL,
+  `fk_userId` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_placeId_idx` (`fk_placeId` ASC) VISIBLE,
+  INDEX `fk_userId_idx` (`fk_userId` ASC) VISIBLE,
+  CONSTRAINT `fk_placeId`
+    FOREIGN KEY (`fk_placeId`)
+    REFERENCES `middle_earth_database`.`middle_earth_places` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_userId`
+    FOREIGN KEY (`fk_userId`)
+    REFERENCES `middle_earth_database`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
